@@ -32,11 +32,17 @@ app.use(rateLimit({
   max:100 //limit each ip to 100 requests per windows 
 }))
 
+//Swagger UI
+const swaggerUI = require("swagger-ui-express")
+const YAML = require('yamljs')
+const swaggerDocument = YAML.load('./swagger.yaml')
 
 
 app.get("/",(req,res)=>{
-  res.send("Jobs Api")
+  res.send("<h1>Jobs Api</h1><a href='/api-docs'>Documentation</a>")
 })
+app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocument))
+
 
 // app.use(express.static("./public"))
 app.use("/api/auth",authRouter)
